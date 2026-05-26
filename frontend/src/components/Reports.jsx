@@ -20,6 +20,8 @@ const Reports = () => {
   const { reports, fetchReports } = useReportStore();
   const [input, setInput] = useState("");
 
+  const [pages, setPages] = useState(1);
+
   const categories = [
     "Infrastructure Damage",
     "Public Safety",
@@ -110,14 +112,13 @@ const Reports = () => {
 
         toast.success(res.data.message);
 
-        fetchReports()
+        fetchReports();
       } catch (error) {
         console.log(error);
         toast.error(res.error.message);
       }
-    }
-    else{
-      return
+    } else {
+      return;
     }
   };
 
@@ -134,6 +135,7 @@ const Reports = () => {
     }
   };
 
+  console.log(reports);
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-200 p-4 md:p-8 font-sans">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
@@ -173,21 +175,7 @@ const Reports = () => {
           <Search className="absolute left-3.5 top-3 text-slate-500 w-4 h-4" />
         </div>
 
-        <div className="flex gap-2 w-full md:w-auto">
-          <div className="relative flex-1 md:flex-none">
-            <select className="appearance-none w-full bg-slate-900/50 border border-slate-700 rounded-xl pl-4 pr-10 py-2.5 text-sm focus:outline-none cursor-pointer">
-              <option>All Categories</option>
-              <option value="Infrastructure Damage">
-                Infrastructure Damage
-              </option>
-              <option value="Public Safety">Public Safety</option>
-              <option value="Utility Failure">Utility failure</option>
-              <option value="Transporatation">Transportation</option>
-              <option value="Sanitation/Waste">Sanitaion/Waste</option>
-            </select>
-            <Filter className="absolute right-3 top-3 text-slate-500 w-4 h-4 pointer-events-none" />
-          </div>
-        </div>
+      
       </div>
 
       {updateReport && (
@@ -325,84 +313,86 @@ const Reports = () => {
             </thead>
 
             {filteredReport.length > 0 ? (
-              filteredReport.map((report, key) => (
-                <tbody className="divide-y divide-slate-700/50">
-                  <tr className="hover:bg-slate-700/20 transition-colors group">
-                    <td className="px-6 py-4 font-mono text-sm text-rose-400">
-                      #CW-{key + 1}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-white mb-1">
-                        {report.title}
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-slate-500">
-                        <MapPin className="w-3 h-3" />
-                        {report.location}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-xs font-medium border border-blue-500/20">
-                        {report.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></span>
-                        <span className="text-xs font-semibold text-rose-500 uppercase">
-                          {report.priority}
+              filteredReport
+                .slice(pages * 3 - 3, pages * 3)
+                .map((report, key) => (
+                  <tbody className="divide-y divide-slate-700/50">
+                    <tr className="hover:bg-slate-700/20 transition-colors group">
+                      <td className="px-6 py-4 font-mono text-sm text-rose-400">
+                        #CW-{key + 1}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-medium text-white mb-1">
+                          {report.title}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-slate-500">
+                          <MapPin className="w-3 h-3" />
+                          {report.location}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-xs font-medium border border-blue-500/20">
+                          {report.category}
                         </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div
-                        id="colorStatus"
-                        className={`flex items-center gap-2 text-xs font-medium ${getColor(report.status)}  border border-amber-400/20 px-2 py-1 rounded w-fit`}
-                      >
-                        <Clock className="w-3 h-3" />
-                        {report.status}
-                      </div>
-                    </td>
-
-                    <td>
-                      <div className="relative">
-                        <button
-                          onClick={() => toggleMenu(report._id)}
-                          className="cursor-pointer p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white absolute right-8 -bottom-4  "
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></span>
+                          <span className="text-xs font-semibold text-rose-500 uppercase">
+                            {report.priority}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div
+                          id="colorStatus"
+                          className={`flex items-center gap-2 text-xs font-medium ${getColor(report.status)}  border border-amber-400/20 px-2 py-1 rounded w-fit`}
                         >
-                          <MoreHorizontal className="w-5 h-5" />
-                        </button>
+                          <Clock className="w-3 h-3" />
+                          {report.status}
+                        </div>
+                      </td>
 
-                        {activeMenu === report._id && (
-                          <>
-                            <div
-                              className="fixed inset-0 z-10"
-                              onClick={() => setActiveMenu(null)}
-                            ></div>
+                      <td>
+                        <div className="relative">
+                          <button
+                            onClick={() => toggleMenu(report._id)}
+                            className="cursor-pointer p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white absolute right-8 -bottom-4  "
+                          >
+                            <MoreHorizontal className="w-5 h-5" />
+                          </button>
 
-                            <div className="absolute right-0 mt-2 w-36 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-20 overflow-hidden">
-                              <button
-                                onClick={() => handleEditClick(report)}
-                                className="cursor-pointer w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
-                              >
-                                <Pencil className="w-4 h-4 text-blue-400" />
-                                Update
-                              </button>
+                          {activeMenu === report._id && (
+                            <>
+                              <div
+                                className="fixed inset-0 z-10"
+                                onClick={() => setActiveMenu(null)}
+                              ></div>
 
-                              <button
-                                onClick={() => handleDelete(report._id)}
-                                className="cursor-pointer w-full flex items-center gap-3 px-4 py-3 text-sm text-rose-400 hover:bg-rose-500/10 transition-colors border-t border-slate-800"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                                Delete
-                              </button>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              ))
+                              <div className="absolute right-0 mt-2 w-36 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-20 overflow-hidden">
+                                <button
+                                  onClick={() => handleEditClick(report)}
+                                  className="cursor-pointer w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+                                >
+                                  <Pencil className="w-4 h-4 text-blue-400" />
+                                  Update
+                                </button>
+
+                                <button
+                                  onClick={() => handleDelete(report._id)}
+                                  className="cursor-pointer w-full flex items-center gap-3 px-4 py-3 text-sm text-rose-400 hover:bg-rose-500/10 transition-colors border-t border-slate-800"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                  Delete
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
             ) : (
               <tr>
                 <td colSpan="5" className="text-center py-10 text-red-600">
@@ -417,14 +407,7 @@ const Reports = () => {
           <span className="text-xs text-slate-500">
             Showing {reports.length} reports
           </span>
-          <div className="flex gap-2">
-            <button className="p-2 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 text-slate-400 transition-colors">
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button className="p-2 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 text-slate-400 transition-colors">
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+     
         </div>
       </div>
     </div>

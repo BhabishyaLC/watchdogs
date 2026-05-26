@@ -15,6 +15,9 @@ import {
   Save,
   Building,
   Pen,
+  View,
+  Menu,
+  X,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { userAuthStore } from "../store/userAuthStore.js";
@@ -42,15 +45,21 @@ const itemVariants = {
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, checkStatus, loading } = userAuthStore();
-  const { reports, fetchReports } = useReportStore();
-  const { allReports } = useReportStore();
+  const { reports, fetchReports, allReports, fetchOverallReports, overallReports } = useReportStore();
+  const [menu, setMenu] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
 
-  console.log(user);
+  console.log(allReports);
 
   useEffect(() => {
-    (checkStatus(), fetchReports());
-  }, []);
+    checkStatus();
+    fetchReports();
+    fetchOverallReports()
+  }, [checkStatus, fetchReports, fetchOverallReports]);
+
+  console.log(overallReports)
+
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0b0f1a] flex items-center justify-center">
@@ -62,7 +71,7 @@ const Dashboard = () => {
   const handleLogOut = async (req, res) => {
     try {
       const res = await API.post("/auth/logout");
-      const message = res.data.message;
+      const { message } = res.data;
       localStorage.removeItem("user");
       toast.success(message);
       navigate("/login");
@@ -76,8 +85,23 @@ const Dashboard = () => {
     setToggleProfile((prev) => !prev);
   };
 
+  const handleMenu = () => {
+    setMenu((prev) => !prev);
+  };
+
+  const statusCount=overallReports.reduce((accumulator, currentElement)=>{
+    const {status}=currentElement
+    accumulator[status]=(accumulator[status]||0)+1
+
+    return accumulator
+
+  },{})
+
+  console.log(statusCount)
+
+
   return (
-    <div className="relative min-h-screen bg-[#0b0f1a] text-slate-200 flex overflow-hidden font-sans">
+    <div className="relative min-h-screen bg-[#0b0f1a] text-slate-200 flex overflow-hidden font-sans ">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -101,7 +125,30 @@ const Dashboard = () => {
         />
       </div>
 
-      <aside className="relative z-10 w-64 bg-[#111827]/80 backdrop-blur-xl border-r border-white/5 hidden md:flex flex-col">
+      <aside
+        className={`
+  
+    bg-[#111827]/95 backdrop-blur-xl border-r border-white/5 flex-col transition-all duration-300
+    
+    ${
+      menu
+        ? "fixed inset-y-0 left-0 w-55 z-50 flex shadow-2xl shadow-black/50"
+        : "hidden"
+    } 
+    
+    sm:relative sm:flex sm:w-64 sm:h-auto sm:z-10 sm:shadow-none
+  `}
+      >
+        <div className="p-4 flex justify-end sm:hidden">
+          <button
+            className="text-slate-400 hover:text-white cursor-pointer p-1"
+            onClick={handleMenu}
+            type="button"
+          >
+            {menu && <X size={24} />}
+          </button>
+        </div>
+
         <div className="p-8">
           <motion.div
             initial={{ opacity: 0 }}
@@ -109,14 +156,14 @@ const Dashboard = () => {
             className="flex items-center gap-3 text-2xl font-black tracking-tighter text-white"
           >
             <div className="relative">
-              <AlertCircle className="text-rose-500" />
+              <View className="text-rose-500" />
               <motion.div
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="absolute inset-0 bg-rose-500 blur-md rounded-full"
               />
             </div>
-            CITYWATCH
+            WatchDogs
           </motion.div>
         </div>
 
@@ -126,20 +173,18 @@ const Dashboard = () => {
             label="Overview"
             active
           />
-          <Link to="/reports">
+
+          <Link to="/reports" onClick={() => (sm ? null : handleMenu())}>
             <NavItem icon={<FileText size={18} />} label="My Reports" />
           </Link>
 
-          
-
-          <Link to="/report-form">
+          <Link to="/report-form" onClick={() => (sm ? null : handleMenu())}>
             <NavItem icon={<Pen size={18} />} label="Initialize Report" />
           </Link>
 
-          <Link to='/savedReport'>
-             <NavItem icon={<Save size={18} />} label="Saved Reports" />
+          <Link to="/savedReport" onClick={() => (sm ? null : handleMenu())}>
+            <NavItem icon={<Save size={18} />} label="Saved Reports" />
           </Link>
-         
         </nav>
 
         <div className="p-6">
@@ -155,27 +200,29 @@ const Dashboard = () => {
         </div>
       </aside>
 
-      <main className="relative z-10 flex-1 flex flex-col h-screen overflow-hidden">
-        <header className="h-20 bg-transparent border-b border-white/5 flex items-center justify-between px-10">
+      <main className="relative flex-1 flex flex-col h-screen overflow-hidden hide">
+        <header className="h-20 bg-transparent border-b border-white/5 flex items-center justify-between px-2">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
           >
-            <h2 className="text-sm uppercase tracking-[0.2em] text-slate-500 font-bold">
-              System Status:{" "}
-              <span className="text-emerald-500 animate-pulse">Online</span>
+            {menu ? null : (
+              <button
+                onClick={handleMenu}
+                className="cursor-pointer block  sm:hidden "
+              >
+                {" "}
+                <Menu size={24} />
+              </button>
+            )}
+            <h2 className="text-sm uppercase tracking-[0.2em] text-slate-500 font-bold hidden md:block">
+              Total Reports Submitted: 
+              <span className="text-emerald-500 animate-pulse text-3xl">{overallReports.length}</span>
             </h2>
           </motion.div>
 
-          <div className="flex items-center gap-6">
-            <div className="relative">
-              <Bell
-                className="text-slate-400 cursor-pointer hover:text-white transition-colors"
-                size={20}
-              />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-rose-500 rounded-full animate-ping" />
-            </div>
-            <div className="h-8 w-px bg-white/10" />
+          <div className="flex items-center gap-6 ">
+            
 
             <button
               type="button"
@@ -202,23 +249,23 @@ const Dashboard = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <StatCard
-              label="Active Cases"
-              value="08"
+              label="Active"
+              value={statusCount.pending}
               icon={<Clock className="text-amber-500" />}
             />
             <StatCard
               label="Resolved"
-              value="142"
+              value={statusCount.resolved}
               icon={<CheckCircle className="text-emerald-500" />}
             />
             <StatCard
-              label="Patrols"
-              value="12"
+              label="Investigating"
+              value={statusCount.investigating}
               icon={<Activity className="text-blue-500" />}
             />
             <StatCard
-              label="Critical"
-              value="02"
+              label="Ignored"
+              value={statusCount.ignored || 0}
               icon={<AlertCircle className="text-rose-500" />}
             />
           </div>
@@ -229,11 +276,6 @@ const Dashboard = () => {
             <aside className="lg:w-95 sticky top-6 self-start hidden lg:block">
               <CityWatchAIAssistant />
             </aside>
-
-            <motion.div
-              variants={itemVariants}
-              className="space-y-6"
-            ></motion.div>
           </div>
         </motion.div>
       </main>

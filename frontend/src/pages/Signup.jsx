@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api/axios.js";
+import {View} from 'lucide-react'
 import toast from "react-hot-toast";
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +22,7 @@ export default function Signup() {
 
     try {
       const response = await API.post("/auth/register", formData);
-      const message = response.data.message;
+      const {message} = response.data;
 
       toast.success(message);
 
@@ -52,22 +53,10 @@ export default function Signup() {
       <div className="relative z-10 w-full max-w-sm bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 shadow-2xl">
         <div className="flex flex-col items-center mb-8">
           <div className="w-12 h-12 rounded-full bg-red-500/20 border border-red-400/40 flex items-center justify-center mb-4">
-            <svg
-              className="w-6 h-6 text-red-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.8}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-              />
-            </svg>
+           <View color='red'/>
           </div>
           <h1 className="text-xl font-semibold text-white">
-            CrimeWatch Portal
+           WatchDogs
           </h1>
           <p className="text-sm text-white/50 mt-1">Create your account</p>
         </div>
@@ -94,7 +83,7 @@ export default function Signup() {
               <input
                 type="text"
                 name="name"
-                placeholder="John Doe"
+                placeholder="Username"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -151,7 +140,7 @@ export default function Signup() {
               <input
                 type="number"
                 name="phone"
-                placeholder="+1 (555) 000-0000"
+                placeholder="Phone Number"
                 value={formData.phone}
                 onChange={handleChange}
                 required

@@ -4,6 +4,7 @@ import API from "../api/axios";
 export const useReportStore = create((set) => ({
   reports: [],
   allReports: [],
+  overallReports:[],
   fetchReports: async () => {
     const res = await API.get("/report/my-reports");
     set({ reports: res.data.reports });
@@ -11,7 +12,13 @@ export const useReportStore = create((set) => ({
   fetchAllReports: async () => {
     const res = await API.get("/report/all-reports");
     set({ allReports: res.data.reports });
-    console.log(res.data.reports)
+   
+  },
+
+  fetchOverallReports:async()=>{
+    const res=await API.get('/report/overall_reports')
+    set({overallReports:res.data.overallReports})
+   
   },
   updateReportInStore: (updatedReport) =>
     set((state) => ({

@@ -18,11 +18,11 @@ import { formatDistanceToNow } from "date-fns";
 import API from "../api/axios";
 import { userAuthStore } from "../store/userAuthStore";
 import toast from "react-hot-toast";
-const NationalReports = () => {
 
+const NationalReports = () => {
   const { allReports, fetchAllReports, updateReportInStore } = useReportStore();
   const { user } = userAuthStore();
-  console.log(allReports);
+
   useEffect(() => {
     fetchAllReports();
   }, []);
@@ -30,26 +30,28 @@ const NationalReports = () => {
   const handleLike = async (id) => {
     try {
       const res = await API.put(`/report/like/${id}`);
-     updateReportInStore(res.data);
-      
-     await fetchAllReports()
+      updateReportInStore(res.data);
+
+      await fetchAllReports();
     } catch (error) {}
   };
 
-  const handleSaved=async(id)=>{
+  const handleSaved = async (id) => {
     try {
-      const res= await API.put(`/auth/saved/${id}`)
-
-      toast.success('Report saved...')
-      
+      const res = await API.put(`/auth/saved/${id}`);
+      if (res.data.saved == false) {
+        
+        toast.success(res.data.message);
+      } else {
+        toast.success("Report saved...");
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="">
-    
       <div className="max-w-2xl">
         <div className="space-y-8">
           {allReports.map((report, key) => (
@@ -62,7 +64,9 @@ const NationalReports = () => {
               <div className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img
-                    src={report.createdBy.profileImage ||report.createdBy.avatar}
+                    src={
+                      report.createdBy.profileImage || report.createdBy.avatar
+                    }
                     referrerPolicy="no-referrer"
                     className="w-10 h-10 rounded-full"
                   />
@@ -83,8 +87,11 @@ const NationalReports = () => {
                     </div>
                   </div>
                 </div>
-                <button className="text-slate-500 hover:text-white p-1 cursor-pointer" onClick={()=>handleSaved(report._id)}>
-                  <Save size={18} />
+                <button
+                  className="text-slate-500 hover:text-white p-1 cursor-pointer"
+                  onClick={() => handleSaved(report._id)}
+                >
+                 <Save size={20}/>
                 </button>
               </div>
 
@@ -101,16 +108,42 @@ const NationalReports = () => {
                 </div>
               </div>
 
-              <div className="relative aspect-video bg-slate-800 group cursor-pointer overflow-hidden">
-                <img
-                  src={report.images}
-                  referrerPolicy="no-referrer"
-                  alt="Incident evidence"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-white/10">
-                  {report.category}
+              {report.images && report.images.length > 0 ? (
+                <div
+                  className={` px-1  grid gap-2 mt-3 ${
+                    report.images.length === 1 ? "row-span-1" : "grid-cols-2"
+                  }`}
+                >
+                  {report.images.map((imgUrl, index) => (
+                    <div
+                      key={index}
+                      className="relative aspect-video rounded-lg overflow-hidden border border-slate-800/80 bg-slate-900/40"
+                    >
+                      <button
+                        className=" h-full w-full"
+                        onClick={() => window.open(imgUrl)}
+                        type="button"
+                      >
+                        <img
+                          src={imgUrl}
+                          alt={`Report attachment ${index + 1}`}
+                          className="cursor-pointer w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                          onError={(e) => {
+                            e.target.src =
+                              "https://placehold.co/600x400/0f121d/64748b?text=Image+Unavailable";
+                          }}
+                        />
+                      </button>
+                    </div>
+                  ))}
                 </div>
+              ) : (
+                <div className="text-xs text-slate-600 italic mt-2">
+                  No attachments provided.
+                </div>
+              )}
+              <div className=" w-50 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-white/10">
+                {report.category}
               </div>
 
               <div className="p-4 flex items-center justify-between border-t border-slate-800/50">
@@ -122,7 +155,9 @@ const NationalReports = () => {
                   >
                     <SearchCheck className="w-7  h-7" />
                     <span className="text-xs font-semibold">Confirm</span>
-                    <span className="text-xs font-semibold">{report.like?.length}</span>
+                    <span className="text-xs font-semibold">
+                      {report.like?.length}
+                    </span>
                   </button>
                 </div>
 
@@ -135,12 +170,6 @@ const NationalReports = () => {
               </div>
             </motion.div>
           ))}
-        </div>
-
-        <div className="py-12 flex justify-center">
-          <button className="px-8 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-full text-sm font-bold text-slate-300 transition-all active:scale-95">
-            Load More Stories
-          </button>
         </div>
       </div>
     </div>

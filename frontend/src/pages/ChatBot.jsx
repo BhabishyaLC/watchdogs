@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import API from "../api/axios";
-
+import ReactMarkdown from "react-markdown";
 const CityWatchAIAssistant = () => {
   const [messages, setMessages] = useState([
     {
@@ -11,9 +11,7 @@ const CityWatchAIAssistant = () => {
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
 
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -21,18 +19,14 @@ const CityWatchAIAssistant = () => {
 
     const userQuery = input;
 
-    
     setMessages((prev) => [...prev, { sender: "user", text: userQuery }]);
     setInput("");
 
-    
     setMessages((prev) => [...prev, { sender: "ai", text: "Thinking..." }]);
 
     try {
-     
       const res = await API.post("/ai/query", { message: userQuery });
 
-      
       setMessages((prev) => {
         const updated = [...prev];
         updated[updated.length - 1] = { sender: "ai", text: res.data.text };
@@ -53,17 +47,15 @@ const CityWatchAIAssistant = () => {
 
   return (
     <div className="w-full max-w-md h-[calc(100vh-180px)] bg-[#0f121d] border border-slate-800/60 rounded-2xl flex flex-col shadow-xl backdrop-blur-md overflow-hidden">
-      {/* CHAT HEADER */}
       <div className="p-4 border-b border-slate-800/80 bg-slate-900/30 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {/* Glowing pulse indicator for online status */}
           <div className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
           </div>
           <div>
             <h3 className="text-sm font-semibold text-slate-200">
-              CityWatch Intelligence Bot
+              WatchDogs Intelligence Bot
             </h3>
             <p className="text-[11px] text-slate-500">
               Connected to Local Registry
@@ -93,7 +85,21 @@ const CityWatchAIAssistant = () => {
                   : "bg-slate-900/80 text-slate-300 border border-slate-800/40 rounded-tl-none"
               }`}
             >
-              {msg.text}
+              {msg.sender === "user" ? (
+                
+                msg.text
+              ) : (
+                
+                <ReactMarkdown
+                  class="space-y-3 prose prose-invert text-sm max-w-none
+                    prose-p:leading-relaxed 
+                    prose-ul:list-disc prose-ul:pl-4 prose-ul:space-y-1
+                    prose-ol:list-decimal prose-ol:pl-4 prose-ol:space-y-1
+                    prose-strong:text-white prose-strong:font-bold"
+                >
+                  {msg.text}
+                </ReactMarkdown>
+              )}
             </div>
           </div>
         ))}

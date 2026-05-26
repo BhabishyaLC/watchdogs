@@ -13,6 +13,8 @@ const report = async (req, res) => {
       createdBy: req.user.id,
     });
 
+    
+
     res.status(201).json({ message: "Report Submitted Successfully!!" });
   } catch (error) {
     console.log(error);
@@ -25,6 +27,7 @@ const fetchReport = async (req, res) => {
       createdBy: req.user.id,
     }).sort({ createdAt: -1 });
 
+    
     res.status(200).json({ message: "Reports fetched successfully!", reports });
   } catch (error) {
     console.log(error);
@@ -114,6 +117,20 @@ const likeReport = async (req, res) => {
   }
 };
 
+const fetchOverallReports=async(req,res)=>{
+  try {
+    const overallReports= await Report.find({}, {status:1})
+    if(overallReports.length==0){
+      res.status(400).json({message:"No reports found!!"})
+      return
+    }
+    res.status(200).json({overallReports})
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"server error"})
+  }
+}
 
 
 export {
@@ -123,5 +140,5 @@ export {
   updateReport,
   deleteReport,
   likeReport,
-
+  fetchOverallReports
 };

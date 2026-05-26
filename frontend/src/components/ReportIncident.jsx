@@ -108,7 +108,7 @@ const ReportIncident = () => {
         },
       });
 
-      const message = response.data.message;
+      const {message} = response.data;
       toast.success(message);
       setFormData({
         title: "",

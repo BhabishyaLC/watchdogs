@@ -3,6 +3,7 @@ import API from "../api/axios.js";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { userAuthStore } from "../store/userAuthStore.js";
+import {View} from 'lucide-react'
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -45,22 +46,10 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center mb-8">
             <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4">
-              <svg
-                className="w-6 h-6 text-red-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.8}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                />
-              </svg>
+              <View color=" red"/>
             </div>
             <h1 className="text-xl font-semibold text-gray-900">
-              CrimeWatch Portal
+              WatchDogs 
             </h1>
             <p className="text-sm text-gray-500 mt-1">
               Sign in to your account
@@ -162,11 +151,7 @@ export default function Login() {
             </div>
           </div>
 
-          <div className="flex justify-end mb-6">
-            <button className="text-xs text-red-600 hover:text-red-500 transition">
-              Forgot password?
-            </button>
-          </div>
+       
 
           <button
             className="cursor-pointer w-full py-2.5 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg transition"

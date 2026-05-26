@@ -55,7 +55,7 @@ const SavedReport = () => {
       </div>
 
       <div className="max-w-2xl mx-auto py-6 px-4">
-        <div className="space-y-8">
+        <div className="">
           {saved.length ? (
             <div>
               {saved.map((item, index) => (
@@ -64,7 +64,7 @@ const SavedReport = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-slate-900/40 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur-sm"
+                  className="bg-slate-900/40 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur-sm mb-5"
                 >
                   <div className="p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -103,11 +103,40 @@ const SavedReport = () => {
                   </div>
 
                   <div className="relative aspect-video bg-slate-800 group cursor-pointer overflow-hidden">
-                    <img
-                      src={item.images}
-                      alt="Incident evidence"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                     {item.images && item.images.length > 0 ? (
+                <div
+                  className={` px-1  grid gap-2 mt-3 ${
+                    item.images.length === 1 ? "row-span-1" : "grid-cols-2"
+                  }`}
+                >
+                  {item.images.map((imgUrl, index) => (
+                    <div
+                      key={index}
+                      className="relative aspect-video rounded-lg overflow-hidden border border-slate-800/80 bg-slate-900/40"
+                    >
+                      <button
+                        className=" h-full w-full"
+                        onClick={() => window.open(imgUrl)}
+                        type="button"
+                      >
+                        <img
+                          src={imgUrl}
+                          alt={`Report attachment ${index + 1}`}
+                          className="cursor-pointer w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                          onError={(e) => {
+                            e.target.src =
+                              "https://placehold.co/600x400/0f121d/64748b?text=Image+Unavailable";
+                          }}
+                        />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-xs text-slate-600 italic mt-2">
+                  No attachments provided.
+                </div>
+              )}
                     <div className="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-white/10">
                       {item.category}
                     </div>
@@ -138,11 +167,7 @@ const SavedReport = () => {
                 </motion.div>
                 
               ))}
-              <div className="py-12 flex justify-center">
-                    <button className="px-8 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-full text-sm font-bold text-slate-300 transition-all active:scale-95">
-                      Load More Stories
-                    </button>
-                  </div>
+              
             </div>
           ) : (
             <div className="py-12 flex justify-center">

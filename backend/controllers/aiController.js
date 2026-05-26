@@ -27,7 +27,7 @@ const handleQuery = async (req, res) => {
       .join("\n");
 
     const systemPrompt = `
-      You are the CityWatch AI Assistant, a professional dispatcher tool. 
+      You are the WatchDogs AI Assistant, a professional dispatcher tool. 
       Here is the current live database data of reported incidents in the city:
       ${systemReport || "No active incidents reported today."}
 

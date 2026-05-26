@@ -1,5 +1,6 @@
+import { Eye } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, Links } from "react-router-dom";
 
 
 const FontLoader = () => (
@@ -242,26 +243,15 @@ const Navbar = () => {
             background: "rgba(220,38,38,0.15)", border: "1px solid rgba(220,38,38,0.4)",
             display: "flex", alignItems: "center", justifyContent: "center"
           }}>
-            <ShieldIcon size={18} color="#dc2626" />
+            <Eye size={18} color="#dc2626" />
           </div>
           <div>
-            <span style={{ fontFamily: "var(--font-display)", fontSize: 22, letterSpacing: "0.04em", color: "white" }}>CIVIL</span>
-            <span style={{ fontFamily: "var(--font-display)", fontSize: 22, letterSpacing: "0.04em", color: "var(--red)" }}>GUARD</span>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: 22, letterSpacing: "0.04em", color: "white" }}>WATCH</span>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: 22, letterSpacing: "0.04em", color: "var(--red)" }}>DOGS</span>
           </div>
         </div>
 
         
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="desktop-nav">
-          {["Home", "How It Works", "Features", "Statistics", "FAQ"].map(link => (
-            <a key={link} href={`#${link.toLowerCase().replace(/ /g, "-")}`} style={{
-              fontFamily: "var(--font-body)", fontSize: 14, fontWeight: 500,
-              color: "var(--muted)", textDecoration: "none", transition: "color 0.2s",
-            }}
-              onMouseEnter={e => e.target.style.color = "white"}
-              onMouseLeave={e => e.target.style.color = "var(--muted)"}
-            >{link}</a>
-          ))}
-        </div>
 
      
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -271,34 +261,12 @@ const Navbar = () => {
          
          
           
-          <button
-            type="button"
-            onClick={() => setMenuOpen(v => !v)}
-            style={{ background: "none", border: "none", color: "white", cursor: "pointer", display: "none", marginLeft: 4 }}
-            className="hamburger"
-          >
-            {menuOpen ? <XIcon /> : <MenuIcon />}
-          </button>
+         
         </div>
       </div>
 
      
-      {menuOpen && (
-        <div style={{
-          background: "rgba(6,8,16,0.98)", borderTop: "1px solid var(--border)",
-          padding: "20px 24px", display: "flex", flexDirection: "column", gap: 16
-        }}>
-          {["Home", "How It Works", "Features", "Statistics", "FAQ"].map(link => (
-            <a key={link} href="#" onClick={() => setMenuOpen(false)} style={{
-              color: "var(--muted)", textDecoration: "none", fontSize: 15, fontWeight: 500
-            }}>{link}</a>
-          ))}
-          <div style={{ display: "flex", gap: 10, paddingTop: 8 }}>
-            <button className="btn-outline" style={{ flex: 1 }}>Log In</button>
-            <button className="btn-primary" style={{ flex: 1 }}>Sign Up</button>
-          </div>
-        </div>
-      )}
+      
 
       <style>{`
         @media (max-width: 768px) {
@@ -313,12 +281,11 @@ const Navbar = () => {
 
 const Ticker = () => {
   const items = [
-    "🚨 Report crimes anonymously — your identity is always protected",
-    "📍 Real-time crime mapping across all districts",
-    "🔒 End-to-end encrypted submissions",
-    "📞 Emergency line: 911 — Non-emergency: 1-800-CIVIL-00",
-    "✅ Over 12,400 cases resolved through citizen reports",
-    "🏅 Trusted by 38 city police departments nationwide",
+    " Report problems or crimes of your areas",
+    " Watch what's happening in the country",
+    " Simple AI integration for your convenience",
+    " Manage your report logs",
+   
   ];
   const doubled = [...items, ...items];
   return (
@@ -356,14 +323,7 @@ const Hero = () => (
      
         <div>
       
-          <div className="fade-up" style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.25)",
-            borderRadius: 100, padding: "6px 14px", marginBottom: 28
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--red)", display: "inline-block", animation: "pulse-ring 1.5s ease-out infinite" }} />
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "rgba(220,38,38,0.9)", letterSpacing: "0.1em" }}>SYSTEM ACTIVE — SECURE REPORTING</span>
-          </div>
+         
 
           <h1 className="fade-up-1" style={{
             fontFamily: "var(--font-display)", fontSize: "clamp(52px, 6vw, 88px)",
@@ -378,7 +338,7 @@ const Hero = () => (
             fontFamily: "var(--font-body)", fontSize: 17, lineHeight: 1.7,
             color: "var(--muted)", maxWidth: 460, marginBottom: 36
           }}>
-            CivilGuard empowers every citizen to report crimes safely and anonymously. Your information helps law enforcement act faster and keeps your community safer.
+            WatchDogs empowers every citizen to report crimes safely and anonymously. Your information helps law enforcement act faster and keeps your community safer.
           </p>
 
           <div className="fade-up-3" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 48 }}>
@@ -425,36 +385,10 @@ const Hero = () => (
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 40%, rgba(6,8,16,0.9) 100%)" }} />
             <div className="scan-line" />
 
-        
-            <div style={{
-              position: "absolute", bottom: 20, left: 20, right: 20,
-              background: "rgba(6,8,16,0.85)", backdropFilter: "blur(12px)",
-              border: "1px solid var(--border)", borderRadius: 10, padding: "14px 18px",
-              display: "flex", justifyContent: "space-between", alignItems: "center"
-            }}>
-              <div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--muted)", marginBottom: 3 }}>LATEST REPORT</div>
-                <div style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "white", fontWeight: 500 }}>Suspicious Activity — Downtown</div>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--muted)" }}>2 min ago</span>
-                <span style={{
-                  background: "rgba(220,38,38,0.15)", color: "var(--red)", border: "1px solid rgba(220,38,38,0.3)",
-                  borderRadius: 100, padding: "2px 10px", fontSize: 10, fontFamily: "var(--font-mono)"
-                }}>ACTIVE</span>
-              </div>
-            </div>
+       
           </div>
 
-          <div style={{
-            position: "absolute", top: -16, right: -16,
-            background: "rgba(6,8,16,0.9)", border: "1px solid var(--border)",
-            backdropFilter: "blur(12px)", borderRadius: 10, padding: "10px 16px",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
-          }}>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--muted)", marginBottom: 2 }}>REPORTS TODAY</div>
-            <div style={{ fontFamily: "var(--font-display)", fontSize: 28, color: "var(--red)", letterSpacing: "0.04em" }}>247</div>
-          </div>
+         
         </div>
       </div>
     </div>
@@ -469,47 +403,15 @@ const Hero = () => (
 );
 
 
-const Stats = () => {
-  const stats = [
-    { value: "12,400+", label: "Cases Resolved", sub: "Through citizen tips" },
-    { value: "98.2%", label: "Anonymity Rate", sub: "Identity never compromised" },
-    { value: "38", label: "Partner Departments", sub: "Across the country" },
-    { value: "4.2min", label: "Avg Response Time", sub: "From report to dispatch" },
-  ];
-  return (
-    <section id="statistics" style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "64px 24px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1 }}>
-          {stats.map((s, i) => (
-            <div key={i} className="stat-card" style={{
-              padding: "32px 24px", textAlign: "center",
-              borderRight: i < 3 ? "1px solid var(--border)" : "none",
-              animationDelay: `${i * 0.1}s`
-            }}>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 46, color: "white", letterSpacing: "0.02em", marginBottom: 6 }}>{s.value}</div>
-              <div style={{ fontFamily: "var(--font-body)", fontSize: 14, fontWeight: 600, color: "var(--red)", marginBottom: 4 }}>{s.label}</div>
-              <div style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--muted)" }}>{s.sub}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <style>{`
-        @media (max-width: 768px) {
-          #statistics > div > div { grid-template-columns: repeat(2,1fr) !important; }
-          #statistics > div > div > div { border-right: none !important; border-bottom: 1px solid var(--border); }
-        }
-      `}</style>
-    </section>
-  );
-};
+
 
 
 const HowItWorks = () => {
   const steps = [
     { num: "01", title: "Create an Account", desc: "Sign up for free in under 2 minutes. Your personal details are encrypted and never shared with third parties." },
     { num: "02", title: "Submit Your Report", desc: "Fill out a simple, guided form. Attach photos or videos if available. Reports can be fully anonymous." },
-    { num: "03", title: "We Route It", desc: "Your report is instantly verified and routed to the appropriate law enforcement department in your area." },
-    { num: "04", title: "Track Progress", desc: "Follow your case in real time. Receive encrypted notifications as authorities take action on your report." },
+    { num: "03", title: "We Route It", desc: "Your report is instantly verified and published in the website." },
+    { num: "04", title: "Track Progress", desc: "Update the progress if its pending/investigating/resolved or ignored" },
   ];
   return (
     <section id="how-it-works" style={{ background: "var(--bg)", padding: "100px 24px" }}>
@@ -556,156 +458,6 @@ const HowItWorks = () => {
 };
 
 
-const Features = () => {
-  const features = [
-    { icon: <LockIcon />, title: "Full Anonymity", desc: "Your identity is protected at every step. We use military-grade encryption to keep your personal details safe, always." },
-    { icon: <MapIcon />, title: "Crime Heat Maps", desc: "Visual, real-time maps showing crime density in your neighborhood so you stay informed and alert." },
-    { icon: <BellIcon />, title: "Instant Alerts", desc: "Get notified about criminal activity happening near you. Opt-in to district-level push notifications." },
-    { icon: <ClockIcon />, title: "24/7 Availability", desc: "Our platform never sleeps. Report incidents at any hour and expect rapid acknowledgement from our team." },
-    { icon: <EyeIcon />, title: "Evidence Upload", desc: "Securely attach photos, videos, and audio recordings to strengthen your report and help investigators." },
-    { icon: <UsersIcon />, title: "Community Watch", desc: "Join neighborhood groups, share observations, and collaborate with verified community watch members." },
-  ];
-  return (
-    <section id="features" style={{ background: "var(--bg2)", padding: "100px 24px", borderTop: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 80, alignItems: "start" }}>
-
-         
-          <div style={{ position: "sticky", top: 100 }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--red)", letterSpacing: "0.15em", display: "block", marginBottom: 12 }}>PLATFORM FEATURES</span>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(36px, 4vw, 52px)", color: "white", letterSpacing: "0.02em", lineHeight: 1, marginBottom: 20 }}>BUILT FOR CITIZENS.<br /><span style={{ color: "var(--red)" }}>TRUSTED BY</span><br />AUTHORITIES.</h2>
-            <p style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--muted)", lineHeight: 1.7, marginBottom: 28 }}>
-              Every feature was designed with one goal: make crime reporting so easy and safe that more people do it.
-            </p>
-            <button className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-              Get Started Free <ArrowRight />
-            </button>
-          </div>
-
-       
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            {features.map((f, i) => (
-              <div key={i} className="card-hover" style={{
-                background: "var(--surface)", border: "1px solid var(--border)",
-                borderRadius: 12, padding: "24px",
-              }}>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 8, marginBottom: 16,
-                  background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.2)",
-                  display: "flex", alignItems: "center", justifyContent: "center", color: "var(--red)"
-                }}>
-                  {f.icon}
-                </div>
-                <h3 style={{ fontFamily: "var(--font-body)", fontSize: 15, fontWeight: 600, color: "white", marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--muted)", lineHeight: 1.7 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <style>{`
-        @media (max-width: 900px) {
-          #features > div > div { grid-template-columns: 1fr !important; }
-          #features > div > div > div:first-child { position: static !important; }
-          #features > div > div > div:last-child { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-    </section>
-  );
-};
-
-
-const ImageSection = () => (
-  <section style={{ background: "var(--bg)", padding: "100px 24px", borderTop: "1px solid var(--border)" }}>
-    <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
-
-     
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=400&auto=format&fit=crop&q=80" alt="Community" style={{ width: "100%", height: 220, objectFit: "cover", borderRadius: 10, border: "1px solid var(--border)", gridColumn: "span 2" }} />
-          <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=300&auto=format&fit=crop&q=80" alt="City surveillance" style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 10, border: "1px solid var(--border)" }} />
-          <div style={{
-            height: 160, borderRadius: 10, border: "1px solid rgba(220,38,38,0.3)",
-            background: "rgba(220,38,38,0.05)", display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center", gap: 8
-          }}>
-            <div style={{ fontFamily: "var(--font-display)", fontSize: 40, color: "var(--red)" }}>99%</div>
-            <div style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--muted)", textAlign: "center", padding: "0 12px" }}>of users feel safer after reporting</div>
-          </div>
-        </div>
-
-        <div style={{ paddingLeft: 24 }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--red)", letterSpacing: "0.15em", display: "block", marginBottom: 12 }}>OUR MISSION</span>
-          <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px, 3.5vw, 48px)", color: "white", letterSpacing: "0.02em", lineHeight: 1.05, marginBottom: 20 }}>
-            SAFER STREETS START WITH <span style={{ color: "var(--red)" }}>YOU.</span>
-          </h2>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--muted)", lineHeight: 1.8, marginBottom: 16 }}>
-            CivilGuard was founded on a simple belief: when citizens and law enforcement work together, crime drops. Our platform is the bridge that makes that collaboration effortless.
-          </p>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--muted)", lineHeight: 1.8, marginBottom: 32 }}>
-            We've partnered with 38 police departments to ensure your reports reach the right people, fast — without ever putting your identity at risk.
-          </p>
-          {[
-            "Reports routed to correct jurisdiction automatically",
-            "All data encrypted with AES-256 standard",
-            "Officers respond to verified reports first",
-          ].map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <div style={{
-                width: 20, height: 20, borderRadius: "50%", background: "rgba(220,38,38,0.15)",
-                border: "1px solid rgba(220,38,38,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "var(--red)"
-              }}><CheckIcon /></div>
-              <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--muted)" }}>{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-    <style>{`@media(max-width:768px){section > div > div[style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr!important}}`}</style>
-  </section>
-);
-
-
-const FAQ = () => {
-  const [open, setOpen] = useState(null);
-  const faqs = [
-    { q: "Is my identity really kept anonymous?", a: "Yes. CivilGuard uses end-to-end encryption and never stores personally identifiable information tied to your reports. Even if compelled by court order, we have nothing to hand over." },
-    { q: "What kinds of crimes can I report?", a: "You can report any type of crime — from vandalism and theft to assault, drug activity, or suspicious behavior. Our system routes reports to the right department automatically." },
-    { q: "How quickly will authorities respond?", a: "Our average report-to-dispatch time is 4.2 minutes for verified urgent reports. Non-urgent reports are reviewed within 24 hours." },
-    { q: "Can I submit a report without creating an account?", a: "Yes. Anonymous guest reports are available for all users. However, creating a free account allows you to track your report status and receive notifications." },
-    { q: "Is CivilGuard available in my city?", a: "We currently operate in partnership with 38 city police departments across the country. Enter your zip code on the map page to check coverage in your area." },
-  ];
-  return (
-    <section id="faq" style={{ background: "var(--bg2)", padding: "100px 24px", borderTop: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--red)", letterSpacing: "0.15em", display: "block", marginBottom: 12 }}>GOT QUESTIONS?</span>
-          <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(36px, 4vw, 52px)", color: "white", letterSpacing: "0.02em" }}>FREQUENTLY ASKED</h2>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {faqs.map((faq, i) => (
-            <div key={i} style={{ border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", transition: "border-color 0.2s", borderColor: open === i ? "rgba(220,38,38,0.3)" : "var(--border)" }}>
-              <button type="button" onClick={() => setOpen(open === i ? null : i)} style={{
-                width: "100%", padding: "18px 20px", background: open === i ? "rgba(220,38,38,0.05)" : "var(--surface)",
-                border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left",
-                transition: "background 0.2s"
-              }}>
-                <span style={{ fontFamily: "var(--font-body)", fontSize: 15, fontWeight: 500, color: "white" }}>{faq.q}</span>
-                <span style={{ color: "var(--red)", flexShrink: 0, transform: open === i ? "rotate(90deg)" : "none", transition: "transform 0.2s" }}><ChevronRight /></span>
-              </button>
-              {open === i && (
-                <div style={{ padding: "4px 20px 18px", background: "rgba(220,38,38,0.03)", animation: "slideIn 0.2s ease" }}>
-                  <p style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--muted)", lineHeight: 1.75 }}>{faq.a}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 
 const CTABanner = () => (
   <section style={{ background: "var(--bg)", padding: "80px 24px", borderTop: "1px solid var(--border)" }}>
@@ -715,17 +467,20 @@ const CTABanner = () => (
         border: "1px solid rgba(220,38,38,0.2)", borderRadius: 20, padding: "64px 40px"
       }}>
         <div style={{ width: 60, height: 60, borderRadius: "50%", background: "rgba(220,38,38,0.15)", border: "1px solid rgba(220,38,38,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
-          <ShieldIcon size={26} color="#dc2626" />
+          <Eye size={26} color="#dc2626" />
         </div>
         <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(36px, 4vw, 56px)", color: "white", letterSpacing: "0.02em", marginBottom: 16 }}>
-          YOUR CITY NEEDS YOU.
+          YOUR COUNTRY NEEDS YOU.
         </h2>
         <p style={{ fontFamily: "var(--font-body)", fontSize: 16, color: "var(--muted)", maxWidth: 480, margin: "0 auto 36px", lineHeight: 1.7 }}>
-          Join over 200,000 citizens already making their communities safer. Sign up in 2 minutes — it's free, forever.
+          Join other citizens already making their communities safer. Sign up in 2 minutes — it's free, forever.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <Link to='/signup'>
           <button className="btn-primary" style={{ fontSize: 15, padding: "14px 36px" }}>Create Free Account</button>
-          <button className="btn-outline" style={{ fontSize: 15, padding: "14px 36px" }}>Learn More</button>
+          </Link>
+          
+         
         </div>
       </div>
     </div>
@@ -741,9 +496,9 @@ const Footer = () => (
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
             <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(220,38,38,0.15)", border: "1px solid rgba(220,38,38,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <ShieldIcon size={16} color="#dc2626" />
+              <Eye  size={16} color="#dc2626" />
             </div>
-            <span style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "white" }}>CIVIL<span style={{ color: "var(--red)" }}>GUARD</span></span>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "white" }}>WATCH<span style={{ color: "var(--red)" }}>DOGS</span></span>
           </div>
           <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--muted)", lineHeight: 1.7, maxWidth: 260 }}>
             Empowering communities to fight crime through safe, anonymous, and effective reporting.
@@ -768,8 +523,8 @@ const Footer = () => (
       </div>
 
       <div style={{ borderTop: "1px solid var(--border)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--muted)" }}>© 2025 CivilGuard Inc. All rights reserved.</span>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--muted)" }}>Emergency? Call 911</span>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--muted)" }}>© 2026 WatchDogs Inc. All rights reserved.</span>
+       
       </div>
     </div>
     <style>{`
@@ -788,11 +543,11 @@ export default function Homepage() {
       <Navbar />
       <Ticker />
       <Hero />
-      <Stats />
+   
       <HowItWorks />
-      <Features />
-      <ImageSection />
-      <FAQ />
+   
+    
+ 
       <CTABanner />
       <Footer />
     </>
