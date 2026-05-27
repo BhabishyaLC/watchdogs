@@ -54,7 +54,13 @@ const NationalReports = () => {
     <div className="">
       <div className="max-w-2xl">
         <div className="space-y-8">
-          {allReports.map((report, key) => (
+          {allReports.length==0?<div className="flex items-center justify-center gap-2">
+              <h1 className="text-xl font-bold text-white text-center">
+                Fetching Reports
+              </h1>
+              <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-rose-500"></div>
+            </div>
+            :allReports.map((report, key) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -250,22 +250,22 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <StatCard
               label="Active"
-              value={statusCount.pending}
+              value={statusCount.pending|| "--"}
               icon={<Clock className="text-amber-500" />}
             />
             <StatCard
               label="Resolved"
-              value={statusCount.resolved}
+              value={statusCount.resolved || "--"}
               icon={<CheckCircle className="text-emerald-500" />}
             />
             <StatCard
               label="Investigating"
-              value={statusCount.investigating}
+              value={statusCount.investigating || "--"}
               icon={<Activity className="text-blue-500" />}
             />
             <StatCard
               label="Ignored"
-              value={statusCount.ignored || 0}
+              value={statusCount.ignored || "--"}
               icon={<AlertCircle className="text-rose-500" />}
             />
           </div>
