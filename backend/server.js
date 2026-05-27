@@ -28,6 +28,7 @@ app.use(cookieParser())
 
 app.use(passport.initialize())
 
+database()
 
 const PORT=process.env.PORT
 
@@ -55,5 +56,5 @@ app.get('/api/me',requireAuth,async(req,res)=>{
     res.status(200).json({user:updatedUser})
 })
 
-database
+
 
