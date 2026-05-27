@@ -18,6 +18,7 @@ dotenv.config()
 
 
 const app=express()
+
 app.use(express.json())
 
 app.use(cors({
@@ -32,29 +33,30 @@ database()
 
 const PORT=process.env.PORT
 
-app.get('/',(req,res)=>{
-    res.send('Server is active...')
-})
 
-app.listen(PORT,()=>{
-    console.log(`Server is active at http://localhost:${PORT}`)
-})
+
 
 app.use('/api/auth',authRoutes)
 app.use('/api/auth',googleAuth)
 app.use('/api/report',reportRoutes)
 app.post('/api/ai/query', aiController)
-
-
-
-
-
-
-
 app.get('/api/me',requireAuth,async(req,res)=>{
     const updatedUser= await UserModel.findById(req.user.id).select('-password')
     res.status(200).json({user:updatedUser})
 })
+
+app.get('/',(req,res)=>{
+    res.send('Server is active...')
+})
+
+
+app.listen(PORT,()=>{
+    console.log(`Server is active at http://localhost:${PORT}`)
+})
+
+export default app
+
+
 
 
 
