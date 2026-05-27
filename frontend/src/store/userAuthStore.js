@@ -8,7 +8,7 @@ export const userAuthStore=create((set)=>({
 
     checkStatus:async()=>{
         try {
-            const res= await API.get('http://localhost:3000/api/me')
+            const res= await API.get('https://watchdogs-fawn.vercel.app/api/me')
             set({user:res.data.user,loading:false})
          
         } catch (error) {
